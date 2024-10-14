@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from .models import Destination, Comment
 from .forms import DestinationForm, CommentForm
 from . import db
+from datetime import datetime
 import os
 from werkzeug.utils import secure_filename
 # additional import:
@@ -60,7 +61,8 @@ def comment(id):
     destination = db.session.scalar(db.select(Destination).where(Destination.id==id))
     if form.validate_on_submit():  
       # read the comment from the form
-      comment = Comment(text=form.text.data, destination=destination, user=current_user) 
+      current_time = datetime.now()
+      comment = Comment(text=form.text.data, destination=destination, user=current_user, created_at=current_time) 
       # here the back-referencing works - comment.destination is set
       # and the link is created
       db.session.add(comment) 

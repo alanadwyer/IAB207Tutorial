@@ -36,11 +36,11 @@ class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(400))
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
     # add the foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     destination_id = db.Column(db.Integer, db.ForeignKey('destinations.id'))
 
     # string print method
     def __repr__(self):
-        return f"Comment: {self.text}"
+         return f"Comment: {self.text}, Created at: {self.created_at.strftime('%Y-%m-%d %H:%M:%S')}"

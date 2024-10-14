@@ -1,8 +1,9 @@
 
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField
+from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, HiddenField
 from wtforms.validators import InputRequired, Email, EqualTo
 from flask_wtf.file import FileRequired, FileField, FileAllowed
+from datetime import datetime
 
 ALLOWED_FILE = {'PNG', 'JPG', 'JPEG', 'png', 'jpg', 'jpeg'}
 
@@ -36,6 +37,9 @@ class RegisterForm(FlaskForm):
     submit = SubmitField("Register")
 
 # User comment
+now = datetime.now()
 class CommentForm(FlaskForm):
   text = TextAreaField('Comment', [InputRequired()])
+  date_made = HiddenField(default=now.strftime('%Y-%m-%d'))
+  time_made = HiddenField(default=now.strftime('%H:%M:%S'))
   submit = SubmitField('Create')
